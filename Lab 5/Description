@@ -1,0 +1,24 @@
+Design a simple module management system. Figure 1 shows its UML class diagram. You may design any methods (including constructors) that can help you to
+implement the following features. For each class, you should put class denition
+in a .h le and class implementation in a .cpp le.
+Key Features.
+Each module (Module class) has a name, some credits (you can set whatever credits you like, by default it is 2.) and number of students who are registered for
+this module. You should allow a user to check if two modules are identical or not.
+Two modules are identical if they have the same name and credits. Implement this
+feature using operator overloading for ==.
+Each Programme (Programme class) consists of a set of modules. The number
+modules of a programme can have is capped by a positive integer (this integer
+is a variable not a constant). You should only allow users to add a module if it
+does not exceed its capacity. Implement this feature using a pointer that points to
+an array of modules, and this must be done using dynamic memory management.
+
+Figure 1: The UML class diagram for a simple module management system.
+Each programme has a string representation (toStr() method in Figure 1): a string
+contains each module's name, credits and number of students studying this module.
+A placement module is a special type of module that has some description only
+(any description is ne) and it is 15 credits.
+3 Test Cases
+Create at least two modules (CS264 and CS357) to test your design, and both
+modules have 5 credits. CS264 has about 181 students and CS357 has about 155
+students. Add both modules into a programme called CSSE (3rd year) and print
+its string representation.
