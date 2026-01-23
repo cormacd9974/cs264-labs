@@ -1,0 +1,534 @@
+4 Writing your own String functions
+In this assignment, you need to write your own string functions based on the
+following requirements without using built-in C++ string.
+
+4.1 length
+unsigned int length (const char* str)
+[Description]: The length function shall return the length of a string excluding
+the '\0' character.
+[Example]: length("string") returns 6 and length("string\0") also returns
+6.
+4.2 copy
+char* copy (char* dest, const char* src)
+[Description]: The copy function shall copy one string from src (including the
+'\0' character) to dest and return the copied string. The copy should happen if
+the size of the destination string is large enough to store the copied string, otherwise the function returns NULL.
+[Example]: copy(dest, "string"), when printing dest it should print string
+on the screen, if dest has enough space to hold "string".
+4.3 indexOf
+int indexOf (char c, const char* str)
+[Description]: The indexOf function shall return the position of the first occurrence of c in a string str. If no such character c is found, then it shall return
+−1.
+[Example]: indexOf('i', "string"), it should return 3. The call
+indexOf('a', "string") should return −1.
+4.4 substring
+char* substring (int i, int j, const char* str)
+[Description]: The substring function shall return a substring of a given string
+str. The substring begins with the character at index i upto index j − 1. This
+function shall make sure i and j are in the valid range, otherwise it shall return
+2
+NULL.
+[Example]: substring(0, 3, "string") should return "str".
+4.5 replace
+char* replace (char c, char p, const char* str)
+[Description]: The replace function shall return a new string that replaces
+every occurrence of c with p in a given string str. If no such character c is found,
+then a copy of the string str is returned.
+[Example]: replace('i','x', "string"), it should return "strxng"
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#include <iostream>
+#include <cstring>
+// Cormac Dunne - 21451174.
+using namespace std;
+
+// Calculate the lenght of a string 4.1
+unsigned int length(const char* str){
+    unsigned int length = 0; // An int that counts the length.
+    while (str[length] != '\0') { //while loop to go through whole char* until it reaches /0
+        length++; // increment length
+    }
+    return length; // return the total length
+}
+
+// Copy 4.2
+char* copy(char* dest, const char* src){
+    int i = 0; // counter
+    while (src[i] != '\0') { // loop through each character in src until null
+        dest[i] = src[i]; // copy each charcater from src to dest
+        i++; // increment the counter
+    }
+    dest[i] = '\0'; // adding a null terminator to the end of dest
+    return dest; // return dest
+}
+
+// Index of 4.3
+int indexOf(char c, const char* str){
+    for (int i = 0; str[i] != '\0'; i++) { // loop through str until null
+        if (str[i] == c) { // if the char at i is equal to given index
+            return i; // return the index i
+        }
+    }
+    return -1; // if there is no match we return -1."
+}
+
+// SubString 4.4
+char* substring(int i, int j, const char* str){
+    if (i < 0 || j <= i || j > length(str)) { // checking if the values for i and j are valid and making sure j is less than str
+        return NULL; // return NULL if true
+    }
+    char* sub = new char [j - i + 1]; // substring for length
+    int k = 0; // index for sub
+    for (int index = i; index < j; index++) { // copying characters from str into sub.
+        sub[k++] = str[index]; // copy characters from str to sub, k++
+    }
+    sub[k] = '\0'; // adding null terminator to mark the end of sub
+    return sub; // return sub
+}
+
+// 4.5 Replace
+char* replace(char c, char p, const char* str){
+    int temp = length(str); // length of str
+    char* rep = new char[temp + 1]; // string that replaces letters
+    for (int i = 0; i < temp; i++) { // loop through original string
+        if(str[i] == c) { // if i and c are equal
+            rep[i] = p; // replace it with p
+        } else {
+            rep[i] = str[i]; // else the original character
+        }
+    }
+    rep[temp] = '\0'; // adding the null terminator to the end of rep
+    return rep; // return replaced string
+}
+
+// Length Test Case 1
+void length_test_case_1(){
+    char test_input [] = "string\0";
+    string expected = "string";
+    int expected_output = expected.length(); //using this as a test and NOT for the question
+
+    int result = length(test_input);
+    cout << "4.1 Test Case 1" << endl;
+    cout << "length_test_case_1_test_input: " << test_input << endl;
+
+    if(result == expected_output){
+        cout << "length_name_test_case_1 PASSED" << endl;
+        cout << "Expected Output: " << expected_output << endl;
+        cout << "Actual Output: " << result << endl;
+    }
+    else{
+        cout << "length_name_test_case_1 FAILED" << endl;
+        cout << "Expected: " << expected_output << endl;
+        cout << "Actual: " << result << endl;
+    }
+
+    cout << "==================================================" << endl;
+}
+// Length Test Case 2
+void length_test_case_2(){
+    char test_input [] = "368865845";
+    string expected = "368865845";
+    int expected_output = expected.length(); //using this as a test and NOT for the question
+
+    int result = length(test_input);
+    cout << "4.1 Test Case 2" << endl;
+    cout << "length_test_case_2_test_input: " << test_input << endl;
+
+    if(result == expected_output){
+        cout << "length_name_test_case_2 PASSED" << endl;
+        cout << "Expected Output: " << expected_output << endl;
+        cout << "Actual Output: " << result << endl;
+    }
+    else{
+        cout << "length_name_test_case_2 FAILED" << endl;
+        cout << "Expected output: " << expected_output << endl;
+        cout << "Actual output: " << result << endl;
+    }
+
+    cout << "==================================================" << endl;
+}
+// Length Test Case 3
+void length_test_case_3(){
+    char test_input [] = "proposal";
+    string expected = "proposal";
+    int expected_output = expected.length(); //using this as a test and NOT for the question
+
+    int result = length(test_input);
+    cout << "4.1 Test Case 3" << endl;
+    cout << "length_test_case_3_test_input: " << test_input << endl;
+
+    if(result == expected_output){
+        cout << "length_name_test_case_3 PASSED" << endl;
+        cout << "Expected Output: " << expected_output << endl;
+        cout << "Actual Output: " << result << endl;
+    }
+    else{
+        cout << "length_name_test_case_3 FAILED" << endl;
+        cout << "Expected output: " << expected_output << endl;
+        cout << "Actual output: " << result << endl;
+    }
+
+    cout << "==================================================" << endl;
+}
+// Length Test Case 4
+void length_test_case_4(){
+    char test_input [] = "hello67888";
+    string expected = "hello67888";
+    int expected_output = expected.length(); //using this as a test and NOT for the question
+
+    int result = length(test_input);
+    cout << "4.1 Test Case 4" << endl;
+    cout << "length_test_case_4_test_input: " << test_input << endl;
+
+    if(result == expected_output){
+        cout << "length_name_test_case_4 PASSED" << endl;
+        cout << "Expected Output: " << expected_output << endl;
+        cout << "Actual Output: " << result << endl;
+    }
+    else{
+        cout << "length_name_test_case_4 FAILED" << endl;
+        cout << "Expected output: " << expected_output << endl;
+        cout << "Actual output: " << result << endl;
+    }
+
+    cout << "==================================================" << endl;
+}
+// Copy Test Case 1
+void copy_test_case_1(){
+    char test_input [] = "string";
+    char dest[] = "            ";
+    char expected_output[] = "string";
+
+
+    char *temp = copy(dest,test_input);
+    cout << "4.2 Test Case 1" << endl;
+    cout << "copy_test_case_1_test_input: " << test_input << endl;
+
+
+    if(temp != NULL){
+        if(strcmp(temp, expected_output) == 0){
+            cout << "copy_test_case_1 PASSED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+        else{
+            cout << "copy_test_case_1 FAILED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+    }else{
+        cout << "copy_test_case_1 FAILED (Returned NULL, dest not big enough)" << endl;
+    }
+
+   cout << "==================================================" << endl;
+}
+// Copy Test Case 2
+void copy_test_case_2(){
+    char test_input [] = "79695";
+    char dest[] = "            ";
+    char expected_output[] = "79695";
+
+
+    char *temp = copy(dest,test_input);
+    cout << "4.2 Test Case 2" << endl;
+    cout << "copy_test_case_2_test_input: " << test_input << endl;
+
+
+    if(temp != NULL){
+        if(strcmp(temp, expected_output) == 0){
+            cout << "copy_test_case_2 PASSED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+        else{
+            cout << "copy_test_case_2 FAILED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+    }else{
+        cout << "copy_test_case_2 FAILED (Returned NULL, dest not big enough)" << endl;
+    }
+
+   cout << "==================================================" << endl;
+}
+// Copy Test Case 3
+void copy_test_case_3(){
+    char test_input [] = "hello cormac";
+    char dest[] = "            ";
+    char expected_output[] = "hello cormac";
+
+
+    char *temp = copy(dest,test_input);
+    cout << "4.2 Test Case 3" << endl;
+    cout << "copy_test_case_3_test_input: " << test_input << endl;
+
+
+    if(temp != NULL){
+        if(strcmp(temp, expected_output) == 0){
+            cout << "copy_test_case_3 PASSED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+        else{
+            cout << "copy_test_case_3 FAILED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+    }else{
+        cout << "copy_test_case_3 FAILED (Returned NULL, dest not big enough)" << endl;
+    }
+
+   cout << "==================================================" << endl;
+}
+// indexof test case 1
+void indexOf_test_case_1(){
+    char test_input [] = "string";
+    char c = 'i';
+    int expected_output = 3;
+
+    int result = indexOf(c,test_input);
+    cout << "4.3 Test Case 1" << endl;
+    cout << "indexOf_test_case_1_test_input: " << test_input << " ,char c: " << c << endl;
+    if(result == expected_output){
+        cout << "indexOf_name_test_case_1 PASSED" << endl;
+        cout << "Expected output: " << expected_output << endl;
+        cout << "Actual output: " << result << endl;
+    }
+    else{
+        cout << "indexOf_name_test_case_1 FAILED" << endl;
+        cout << "Expected output: " << expected_output << endl;
+        cout << "Actual output: " << result << endl;
+    }
+
+    cout << "==================================================" << endl;
+
+}
+void indexOf_test_case_2(){
+    char test_input [] = "tghq5gwerg";
+    char c = 'i';
+    int expected_output = -1;
+
+    int result = indexOf(c,test_input);
+    cout << "4.3 Test Case 2" << endl;
+    cout << "indexOf_test_case_2_test_input: " << test_input << " ,char c: " << c << endl;
+    if(result == expected_output){
+        cout << "indexOf_name_test_case_2 PASSED" << endl;
+        cout << "Expected output: " << expected_output << endl;
+        cout << "Actual output: " << result << endl;
+    }
+    else{
+        cout << "indexOf_name_test_case_2 FAILED" << endl;
+        cout << "Expected output: " << expected_output << endl;
+        cout << "Actual output: " << result << endl;
+    }
+
+    cout << "==================================================" << endl;
+
+}
+void indexOf_test_case_3(){
+    char test_input [] = "jjji";
+    char c = 'j';
+    int expected_output = 0;
+
+    int result = indexOf(c,test_input);
+    cout << "4.3 Test Case 3" << endl;
+    cout << "indexOf_test_case_3_test_input: " << test_input << " ,char c: " << c << endl;
+    if(result == expected_output){
+        cout << "indexOf_name_test_case_3 PASSED" << endl;
+        cout << "Expected output: " << expected_output << endl;
+        cout << "Actual output: " << result << endl;
+    }
+    else{
+        cout << "indexOf_name_test_case_3 FAILED" << endl;
+        cout << "Expected output: " << expected_output << endl;
+        cout << "Actual output: " << result << endl;
+    }
+
+    cout << "==================================================" << endl;
+
+}
+void substring_test_case_1(){
+    char test_input [] = "string";
+    char expected_output[] = "str";
+    int i = 0;
+    int j = 3;
+
+    char *temp = substring(i,j,test_input);
+    cout << "4.4 Test Case 1" << endl;
+    cout << "substring_test_case_1_test_input: " << test_input << endl;
+    cout << "substring_test_case_1_i: " << i << endl;
+    cout << "substring_test_case_1_j: " << j << endl;
+
+    if(temp != NULL){
+        if(strcmp(temp, expected_output) == 0){
+            cout << "substring_name_test_case_1 PASSED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+        else{
+            cout << "substring_name_test_case_1 FAILED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+        delete [] temp;
+    }else{
+        cout << "substring_name_test_case_1 FAILED (j out of bounds or i >= j)" << endl;
+    }
+
+    cout << "==================================================" << endl;
+}
+void substring_test_case_2(){
+    char test_input [] = "string";
+    char expected_output[] = "strin";
+    int i = 0;
+    int j = 5;
+
+    char *temp = substring(i,j,test_input);
+    cout << "4.4 Test Case 2" << endl;
+    cout << "substring_test_case_2_test_input: " << test_input << endl;
+    cout << "substring_test_case_2_i: " << i << endl;
+    cout << "substring_test_case_2_j: " << j << endl;
+
+    if(temp != NULL){
+        if(strcmp(temp, expected_output) == 0){
+            cout << "substring_name_test_case_2 PASSED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+        else{
+            cout << "substring_name_test_case_2 FAILED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+        delete [] temp;
+    }else{
+        cout << "substring_name_test_case_2 FAILED (j out of bounds or i >= j)" << endl;
+    }
+
+    cout << "==================================================" << endl;
+}
+void substring_test_case_3(){
+    char test_input [] = "string";
+    char expected_output[] = "string";
+    int i = 0;
+    int j = 6;
+
+    char *temp = substring(i,j,test_input);
+    cout << "4.4 Test Case 3" << endl;
+    cout << "substring_test_case_3_test_input: " << test_input << endl;
+    cout << "substring_test_case_3_i: " << i << endl;
+    cout << "substring_test_case_3_j: " << j << endl;
+
+    if(temp != NULL){
+        if(strcmp(temp, expected_output) == 0){
+            cout << "substring_name_test_case_3 PASSED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+        else{
+            cout << "substring_name_test_case_3 FAILED" << endl;
+            cout << "Expected output: " << expected_output << endl;
+            cout << "Actual output: " << temp << endl;
+        }
+        delete [] temp;
+    }else{
+        cout << "substring_name_test_case_3 FAILED (j out of bounds or i >= j)" << endl;
+    }
+
+    cout << "==================================================" << endl;
+}
+void replace_test_case_1(){
+    char test_input [] = "string";
+    char c = 'i';
+    char p = 'x';
+
+    char expected[] = "strxng";
+
+    char *temp = replace(c,p,test_input);
+    cout << "4.5 Test Case 1" << endl;
+    cout << "replace_test_case_1_test_input: " << test_input << endl;
+    cout << "replace_test_case_1_c: " << c << endl;
+    cout << "replace_test_case_1_p: " << p << endl;
+    if(strcmp(expected,temp) == 0){
+        cout << "replace_test_case_1 PASSED" << endl;
+        cout << "Expected output: " << expected << endl;
+        cout << "Actual output: " << temp << endl;
+    }else{
+        cout << "replace_test_case_1 FAILED"<< endl;
+        cout << "Expected output: " << expected << endl;
+        cout << "Actual output: " << temp << endl;
+    }
+
+    cout << "==================================================" << endl;
+    delete [] temp;
+}
+void replace_test_case_2(){
+    char test_input [] = "string";
+    char c = 't';
+    char p = 'f';
+
+    char expected[] = "sfring";
+
+    char *temp = replace(c,p,test_input);
+    cout << "4.5 Test Case 2" << endl;
+    cout << "replace_test_case_2_test_input: " << test_input << endl;
+    cout << "replace_test_case_2_c: " << c << endl;
+    cout << "replace_test_case_2_p: " << p << endl;
+    if(strcmp(expected,temp) == 0){
+        cout << "replace_test_case_2 PASSED" << endl;
+        cout << "Expected output: " << expected << endl;
+        cout << "Actual output: " << temp << endl;
+    }else{
+        cout << "replace_test_case_2 FAILED"<< endl;
+        cout << "Expected output: " << expected << endl;
+        cout << "Actual output: " << temp << endl;
+    }
+
+    cout << "==================================================" << endl;
+    delete [] temp;
+}
+void replace_test_case_3(){
+    char test_input [] = "cormac";
+    char c = 'o';
+    char p = 'z';
+
+    char expected[] = "czrmac";
+
+    char *temp = replace(c,p,test_input);
+    cout << "4.5 Test Case 3" << endl;
+    cout << "replace_test_case_3_test_input: " << test_input << endl;
+    cout << "replace_test_case_3_c: " << c << endl;
+    cout << "replace_test_case_3_p: " << p << endl;
+    if(strcmp(expected,temp) == 0){
+        cout << "replace_test_case_3 PASSED" << endl;
+        cout << "Expected output: " << expected << endl;
+        cout << "Actual output: " << temp << endl;
+    }else{
+        cout << "replace_test_case_3 FAILED"<< endl;
+        cout << "Expected output: " << expected << endl;
+        cout << "Actual output: " << temp << endl;
+    }
+
+    cout << "==================================================" << endl;
+    delete [] temp;
+}
+int main(){
+    length_test_case_1();
+    length_test_case_2();
+    length_test_case_3();
+    length_test_case_4();
+    copy_test_case_1();
+    copy_test_case_2();
+    copy_test_case_3();
+    indexOf_test_case_1();
+    indexOf_test_case_2();
+    indexOf_test_case_3();
+    substring_test_case_1();
+    substring_test_case_2();
+    substring_test_case_3();
+    replace_test_case_1();
+    replace_test_case_2();
+    replace_test_case_3();
+    return 0;
+}
