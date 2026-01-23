@@ -1,0 +1,213 @@
+//4.1
+// Cormac Dunne21451174
+#include <iostream>
+using namespace std;
+int main(){
+    int number; // variable for input
+    int reversed=0; // variable for reversed number
+    cout << "Enter an Integer:" << endl; 
+    cin>> number; // assigning the inputted value to the number variable
+    
+    while(number!=0){ //runs through the entire int until it reaches 0
+        int end = number%10; // by getting the modulo 10 of the inputted number, it finds the end digit and saves it into a temporary int called end
+        reversed = reversed*10+end; // this assigns the end digit to the "reversed" int, but it also multiplies any int that is already saved as "revered" by 10 in order for the new end int to be saved at the front of the new int to ensure it's being placed in reverse order
+        number/=10; // as the end digit has now been stored in the new int, dividing the original number by 10 removes that end digit and saves number without it so that it can be run through the loop again
+    }
+    cout<<reversed<<endl; // this prints out the number reversed
+}
+
+
+//4.2 Write a C++ program that reads in two integers from users input and calculates the greatest common divisor of two integers.
+//Cormac Dunne 21451174
+
+#include <iostream>
+using namespace std;
+    
+int main(){
+
+    int first;
+    int second; // these variables store the first and second inputted numbers
+    int high;
+    int low; // these two ints store the highest and lowest of the two ints respectively
+    int gcd; // this stores the greatest common divisor, the int that will b e printed at the end
+    // This outputs a message asking for the 2 ints and saves both inputs in first and second respectively
+    cout << "Enter the first number:"<<endl;
+    cin>>first;
+    cout <<"Enter the second number:"<<endl;
+    cin>>second;
+
+    //cout<<"The GCD of "<<first<<" and "<<second<<" is:"<<endl;
+
+    // This if else assigns the highest value to high and the lowest to low depending on which one it is
+    if(first>second){
+        high = first;
+        low = second;
+    }
+    else{
+        high = second;
+        low = first;
+    }
+
+    //cout<<high<<" is greater than "<<low<<endl;
+
+
+    // This loop iterates from the smaller number (low) down to 1
+    // It checks if both 'high' and 'low' can be divided by the current number that is stored in 'i'
+    // The first number we find will be the greatest common divisor
+    for(int i=low;i>0;i--){
+        if(high%i==0 && low%i==0){
+            gcd = i; // this sets the gcd to the current number, this will then end the loop with the break
+            break;
+        }
+
+    }
+    cout<<"The Greatest Common Divisor of "<<first<<" and "<< second<<" is: "<<gcd<<endl;
+}
+
+
+
+
+
+
+
+//4.3
+//Write a C++ program that reads in an integer and checks if it is palindrome. An integer is palindrome when it reads the same backward as forward.
+// Cormac Dunne 21451174
+
+
+// i started by copying and pasting my reverse.cpp code into this, as my logic was that you can compare the revered int to the orignal int to see if they do or do not match
+#include <iostream>
+using namespace std;
+
+int main(){
+    int number; 
+    int reversed=0; 
+
+    cout << "Enter an integer to test if it is a palindrome:" << endl; 
+    cin>> number; 
+    int newnumber = number;
+    while(number!=0){
+        int last = number%10; // by getting the modulo 10 of the inputted number, it isolates the last digit and saves it into a temporary int called last
+        reversed = reversed*10+last; // this assigns the last digit to the reversed int, but it also multiplies any int that is already saved as revered by 10 in order for the new last int to be saved at the front of the new int to ensure it's being placed in reverse order
+        number/=10; // as the last digit has now been stored in the new int, dividing the original number by 10 removes that last digit and saves number without it so that it can be run through the loop again
+    }
+
+    // this makes sure that the number is not negative (as negative ints cant be palindromes due to the -) and that they reversed int is the same as the original int
+    if(reversed == newnumber && newnumber>=0){
+        cout<<"True"<<endl;
+    }
+    else{
+        cout<<"False"<< endl;
+    }
+
+    
+}
+
+
+
+
+
+
+
+
+//4.4 
+//Implement a C++ power function P ow(x, y) that has a time complexity of O(log n) without using C++ built-in power function. Write comments to show why it is O(log n).
+// Cormac Dunne 21451174
+
+#include <iostream>
+using namespace std;
+
+// This is the power function, it is first in the code so it can be called from anywhere else in the code
+int Pow(int x, int y) {
+    int result = 1; // this stores the result as 1, this is because multiplying by 1 will return the same value
+    int base = x;   // the current base from the input is stored here
+
+    // The time complexity of this loop is O(log n), with n = y  
+    // The reason this is, is that instead of performing y multiplications, we half y in each iteration
+    // Every time y is halfed, we square the base, which reducs the problem size
+    // By reducing y exponentially (dividing it by 2), the total number of iterations is relevant to log(y)
+    // This allows the code to quickly calculate x^y without doing y multiplications, which gives me O (log n)
+
+    while (y > 0) {
+        // If y is odd, multiply the result by the base
+        if (y % 2 == 1) {
+            result *= base; // this multiplies the base by the result and stores it in the result variable
+        }
+
+        // square the base (base = base^2)
+        base *= base;
+
+        // half the exponent (y = y / 2)
+        y /= 2;
+    }
+
+    return result;
+}
+
+int main() {
+    // this is where the base and exponent are intitially initialised
+    int x, y;
+    cout << "Enter base (x): " << endl;
+    cin >> x; // this saves the inputted base as x
+
+    cout << "Enter exponent (y): " << endl;
+    cin >> y; // this saves the inputted exponent as y
+
+    cout << x << "^" << y << " = " << Pow(x, y) << endl; // this prints out the whole statement while also sending the variables x and y to the power function
+
+    return 0;
+}
+
+
+
+
+
+
+
+//4.5
+// Implement a C++ function that decides if an integer k (k â‰¥ 0) is a power of two (without using C++ built-in power function).
+//Cormac Dunne 21451174
+
+
+#include <iostream>
+using namespace std;
+int main(){
+    int number; // declaring the number that will be inputted
+
+    cout<<"Enter a number to check if it is a power of 2:"<<endl; // asking for the number to be inputted
+    cin>>number;   // saving the number that was inputed in the variable number
+
+    bool pwr=true; // setting up a boolean to prove whether its true or false 
+
+
+
+    if(number<1){
+        pwr = false;
+    } // This if statement basically eliminates 0 and all negative integers, as they cannot be powers of 2
+    else{
+        while(number>1){ // while number is greater than 1 (because 1 is a power of 2 and anything lower is not)
+            if (number % 2 != 0) { // If number is odd, it's not a power of 2
+                pwr = false;
+                break; // break ends the loop if its false, this ensures the code doesnt keep going even when there is no way of it being a power of 2
+            }
+            number/=2; //this halfs the inputted number to run through the loop again
+        }
+    }
+
+    if(pwr==true){
+        cout<<"True"<<endl; // if the number is a power of 2, it says true
+    }
+    else{
+        cout<<"False"<<endl; // if its not a power of 2, it says false
+    }
+    //if(number <0){
+    //}
+    //else{
+    //    cout<<number<<" is a power of 2"<<endl;
+    //}
+    
+
+}
+
+
+
